@@ -13,16 +13,16 @@
     "watch": "coffee -w -c -o . ."
   },
   "dependencies": {
-    "eventemitter2": "^0.4.13",
-    "inherits": "^2.0.1",
-    "lodash.clonedeep": "^2.4.1",
+    "eventemitter2": "~0.4.13",
+    "inherits": "~2.0.1",
+    "lodash.clonedeep": "~2.4.1",
     "patcher": "0.0.6",
-    "through2": "^0.4.2"
+    "through2": "~0.4.2"
   },
   "devDependencies": {
     "coffee-script": "1.7.x",
-    "concat-stream": "^1.4.5",
-    "xtend": "^3.0.0",
+    "concat-stream": "~1.4.5",
+    "xtend": "~3.0.0",
     "tape": "2.x.x"
   },
   "homepage": "https://github.com/nrw/object-viewer",
@@ -30,5 +30,20 @@
   "license": "MIT",
   "author": {
     "name": "Nicholas Westlake"
+  },
+  "testling": {
+    "files": "test/*.js",
+    "browsers": [
+      "ie/8..latest",
+      "firefox/17..latest",
+      "firefox/nightly",
+      "chrome/22..latest",
+      "chrome/canary",
+      "opera/12..latest",
+      "opera/next",
+      "safari/5.1..latest",
+      "ipad/6.0..latest",
+      "iphone/6.0..latest"
+    ]
   }
 }
