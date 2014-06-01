@@ -1,0 +1,34 @@
+{
+  "name": "object-viewer",
+  "description": "View and listen for changes on state object that keeps track of saved vs patched state",
+  "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/nrw/object-viewer.git"
+  },
+  "main": "index.js",
+  "scripts": {
+    "test": "tape test/*.js",
+    "build": "coffee -c -o . .",
+    "watch": "coffee -w -c -o . ."
+  },
+  "dependencies": {
+    "eventemitter2": "^0.4.13",
+    "inherits": "^2.0.1",
+    "lodash.clonedeep": "^2.4.1",
+    "patcher": "0.0.6",
+    "through2": "^0.4.2"
+  },
+  "devDependencies": {
+    "coffee-script": "1.7.x",
+    "concat-stream": "^1.4.5",
+    "xtend": "^3.0.0",
+    "tape": "2.x.x"
+  },
+  "homepage": "https://github.com/nrw/object-viewer",
+  "keywords": [],
+  "license": "MIT",
+  "author": {
+    "name": "Nicholas Westlake"
+  }
+}
