@@ -8,8 +8,12 @@ through = require 'through2'
 Viewer = (base = {}, patch = {}) ->
   return new Viewer base, patch unless this instanceof Viewer
 
+  EventEmitter2.call this
+
   @base = base
   @patched = cloneDeep(base)
+  @patch = {}
+
   patcher.applyPatch @patched, patch
   updatePatch this
 
@@ -74,12 +78,15 @@ updatePatch = (obj) ->
   obj.patch = patcher.computePatch(obj.base, obj.patched) or {}
 
 extractOpts = (args) ->
-  opts = args[args.length-1]
+  opts = args[args.length-1] or {}
 
   if typeof opts is 'string'
-    opts = {view: 'patched'}
+    opts = {}
   else
     args.pop()
+
+  # defaults
+  opts.view or= 'patched'
 
   opts
 

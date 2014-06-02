@@ -148,3 +148,14 @@ test 'swap patch', (t) ->
       t.same people, read(base.person), 'reads base'
     v.read('person').pipe concat (people) ->
       t.same people, read(extend {}, base.person, patch2.person), 'reads patched'
+
+test 'allows empty opts', (t) ->
+  t.plan 1
+
+  base = person: kara: {name: 'Kara Thrace'}
+  patch = person: d: 'Anastasia Dualla'
+
+  v = new Viewer base, patch
+
+  v.read('person', {}).pipe concat (people) ->
+    t.same people, read(extend {}, base.person, patch.person), 'reads patched'
