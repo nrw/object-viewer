@@ -8,7 +8,6 @@ View and listen for changes on state object that keeps track of saved vs patched
 
 ``` js
 var Viewer = require('object-viewer')
-var concat = require('concat-stream')
 var assert = require('assert')
 
 var base = {
@@ -27,19 +26,17 @@ viewer.on('change', function() {
   // access state via viewer.{base,patched,patch}
 })
 
-viewer.read('person').pipe(concat(function(people) {
-  // the contents of the 'people' stream
-  assert.deepEqual(people, [
-    {
-      key: 'kara',
-      value: {name: 'Kara Thrace'}
-    },
-    {
-      key: 'lee',
-      value: {name: 'Lee Adama'}
-    }
-  ])
-})
+// the contents of the 'people' array
+assert.deepEqual(viewer.read('person'), [
+  {
+    key: 'kara',
+    value: {name: 'Kara Thrace'}
+  },
+  {
+    key: 'lee',
+    value: {name: 'Lee Adama'}
+  }
+])
 
 // set value at key path
 viewer.set('person', 'd', {name: 'Anastasia Dualla'})
@@ -62,7 +59,7 @@ An instance of `object-viewer` keeps track of 3 states:
 2. `patched` The state after changes have been made
 3. `patch` The difference between the two states
 
-The getters `get` and `createReadStream` can view any of these states by
+The getters `get` and `read` can view any of these states by
 setting `opts.view` to the desired state. The setter is necessary to trigger
 events and update the `patch`.
 
@@ -74,18 +71,18 @@ events and update the `patch`.
 is a patch from [patcher][patcher] that is used to
 as the initial set of changes to the base state.
 
-### viewer.createReadStream(keyPath..., opts={})
+### viewer.read(keyPath..., opts={})
 
-Create a stream that will emit the objects at the given key path in the format
+Get an array of objects at the given key path in the format
 `{key: '<key>', value: '<value>'}` (the same format used by
-[levelup](https://npmjs.org/package/levelup)). Aliases: `read`, `readStream`.
+[levelup](https://npmjs.org/package/levelup)).
 
 - `opts.view = 'patched'` Set which view of the state to read. options are `patched`,
   `base`, and `patch`.
 
 ### viewer.get(keyPath..., opts={})
 
-Gets the value at the given key path. `opts` behaves the same as in `createReadStream`.
+Gets the value at the given key path. `opts` behaves the same as in `read`.
 
 ### viewer.set(keyPath..., value)
 
