@@ -1,7 +1,7 @@
 {
   "name": "object-viewer",
   "description": "View and listen for changes on state object that keeps track of saved vs patched state",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "repository": {
     "type": "git",
     "url": "git://github.com/nrw/object-viewer.git"
