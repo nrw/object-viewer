@@ -67,9 +67,6 @@ Viewer::applyPatch = (patch = {}) ->
   updatePatch this
   @emit 'patch'
 
-Viewer::readStream = Viewer::read
-Viewer::createReadStream = Viewer::read
-
 updatePatch = (obj) ->
   obj.patch = patcher.computePatch(obj.base, obj.patched) or {}
 
