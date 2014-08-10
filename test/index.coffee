@@ -1,5 +1,4 @@
 test = require 'tape'
-concat = require 'concat-stream'
 extend = require 'xtend'
 
 Viewer = require '../'
@@ -34,23 +33,21 @@ test 'simple', (t) ->
   v.on 'patch', -> t.ok yes, 'emits patch'
   v.on 'change', -> t.ok yes, 'emits change' # called twice
 
-  v.read('ship').pipe concat (people) ->
-    t.same people, read(base.ship), 'reads ship'
+  t.same v.read('ship'), read(base.ship), 'reads ship'
 
-  v.read('person').pipe concat (people) ->
-    t.same people, read(base.person), 'reads people'
+  t.same v.read('person'), read(base.person), 'reads people'
 
-    v.set 'person', 'd', {name: 'Anastasia Dualla'}
+  v.set 'person', 'd', {name: 'Anastasia Dualla'}
 
-    t.same v.get('person', 'kara'), base.person.kara, 'gets'
+  t.same v.get('person', 'kara'), base.person.kara, 'gets'
 
-    t.same v.patch, person: d: name: 'Anastasia Dualla'
+  t.same v.patch, person: d: name: 'Anastasia Dualla'
 
-    v.set 'colony', 'caprica', {name: 'Caprica'}
+  v.set 'colony', 'caprica', {name: 'Caprica'}
 
-    t.same v.patch,
-      person: d: name: 'Anastasia Dualla'
-      colony: caprica: name: 'Caprica'
+  t.same v.patch,
+    person: d: name: 'Anastasia Dualla'
+    colony: caprica: name: 'Caprica'
 
 test 'views', (t) ->
   t.plan 3
@@ -69,14 +66,11 @@ test 'views', (t) ->
 
   v = new Viewer base, patch
 
-  v.read('person', view: 'base').pipe concat (people) ->
-    t.same people, read(base.person), 'reads base'
 
-  v.read('person', view: 'patch').pipe concat (people) ->
-    t.same people, read(patch.person), 'reads patch'
-
-  v.read('person', view: 'patched').pipe concat (people) ->
-    t.same people, read(extend {}, base.person, patch.person), 'reads patched'
+  t.same v.read('person', view: 'base'), read(base.person), 'reads base'
+  t.same v.read('person', view: 'patch'), read(patch.person), 'reads patch'
+  t.same v.read('person', view: 'patched'),
+    read(extend {}, base.person, patch.person), 'reads patched'
 
 test 'swap base', (t) ->
   t.plan 4
@@ -104,17 +98,15 @@ test 'swap base', (t) ->
 
   v = new Viewer base, patch
 
-  v.read('person').pipe concat (people) ->
-    t.same people, read(extend {}, base.person, patch.person), 'reads patched'
 
-    v.setBase base2
+  t.same v.read('person'), read(extend {}, base.person, patch.person), 'reads patched'
 
-    v.read('person', view: 'patch').pipe concat (people) ->
-      t.same people, read(patch.person), 'reads patch'
-    v.read('person', view: 'base').pipe concat (people) ->
-      t.same people, read(base2.person), 'reads base'
-    v.read('person').pipe concat (people) ->
-      t.same people, read(extend {}, base.person, patch.person), 'reads patched'
+  v.setBase base2
+
+  t.same v.read('person', view: 'patch'), read(patch.person), 'reads patch'
+  t.same v.read('person', view: 'base'), read(base2.person), 'reads base'
+  t.same v.read('person'),
+    read(extend {}, base.person, patch.person), 'reads patched'
 
 test 'swap patch', (t) ->
   t.plan 4
@@ -138,16 +130,14 @@ test 'swap patch', (t) ->
 
   v = new Viewer base, patch
 
-  v.read('person').pipe concat (people) ->
-    t.same people, read(extend {}, base.person, patch.person), 'reads patched'
 
-    v.applyPatch patch2
-    v.read('person', view: 'patch').pipe concat (people) ->
-      t.same people, read(patch2.person), 'reads patch'
-    v.read('person', view: 'base').pipe concat (people) ->
-      t.same people, read(base.person), 'reads base'
-    v.read('person').pipe concat (people) ->
-      t.same people, read(extend {}, base.person, patch2.person), 'reads patched'
+  t.same v.read('person'), read(extend {}, base.person, patch.person), 'reads patched'
+
+  v.applyPatch patch2
+  t.same v.read('person', view: 'patch'), read(patch2.person), 'reads patch'
+  t.same v.read('person', view: 'base'), read(base.person), 'reads base'
+  t.same v.read('person'),
+    read(extend {}, base.person, patch2.person), 'reads patched'
 
 test 'allows empty opts', (t) ->
   t.plan 1
@@ -157,5 +147,5 @@ test 'allows empty opts', (t) ->
 
   v = new Viewer base, patch
 
-  v.read('person', {}).pipe concat (people) ->
-    t.same people, read(extend {}, base.person, patch.person), 'reads patched'
+  t.same v.read('person', {}),
+    read(extend {}, base.person, patch.person), 'reads patched'

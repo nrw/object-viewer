@@ -1,7 +1,6 @@
 inherits = require 'inherits'
 patcher = require 'patcher'
 cloneDeep = require 'lodash.clonedeep'
-through = require 'through2'
 
 {EventEmitter2} = require 'eventemitter2'
 
@@ -26,14 +25,11 @@ inherits Viewer, EventEmitter2
 Viewer::read = (path...) ->
   opts = extractOpts path
   base = @[opts.view]
-  stream = through.obj()
 
-  process.nextTick ->
-    for step in path
-      stream.write {key, value} for key, value of base[step]
-    stream.end()
-
-  stream
+  res = []
+  for step in path
+    res.push {key, value} for key, value of base[step]
+  res
 
 Viewer::get = (args...) ->
   opts = extractOpts args

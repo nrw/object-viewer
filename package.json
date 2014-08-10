@@ -16,12 +16,10 @@
     "eventemitter2": "~0.4.13",
     "inherits": "~2.0.1",
     "lodash.clonedeep": "~2.4.1",
-    "patcher": "0.0.6",
-    "through2": "~0.4.2"
+    "patcher": "0.0.6"
   },
   "devDependencies": {
     "coffee-script": "1.7.x",
-    "concat-stream": "~1.4.5",
     "xtend": "~3.0.0",
     "tape": "2.x.x"
   },
